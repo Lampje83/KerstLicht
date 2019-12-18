@@ -5,37 +5,74 @@ VisualStudioVersion = 16.0.29519.161
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{803FD0C6-D64E-4E16-9DC3-1DAEC859A3D2}") = "KerstLicht", "KerstLicht\KerstLicht.vgdbproj", "{2591CC7F-EFBA-4A16-8AD0-73003F9D9F6B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STM32F4", "STM32F4\STM32F4.vcxproj", "{C5E098CD-15AB-4ABF-AA24-B349005F65BA}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "USBTest", "USBTest\USBTest.vcxproj", "{EE88D30B-F639-464A-8A63-672ABA9D2544}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STM32F4", "STM32F4\STM32F4.vcxproj", "{0BD31BC6-95F6-4D06-9652-BD9DAF673461}"
+EndProject
+Project("{803FD0C6-D64E-4E16-9DC3-1DAEC859A3D2}") = "ESP32", "ESP32\ESP32.vgdbproj", "{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Generic_STM32F4_series = Debug|Generic_STM32F4_series
 		Debug|VisualGDB = Debug|VisualGDB
+		MinSizeRel|Generic_STM32F4_series = MinSizeRel|Generic_STM32F4_series
+		MinSizeRel|VisualGDB = MinSizeRel|VisualGDB
 		Release|Generic_STM32F4_series = Release|Generic_STM32F4_series
 		Release|VisualGDB = Release|VisualGDB
+		RelWithDebInfo|Generic_STM32F4_series = RelWithDebInfo|Generic_STM32F4_series
+		RelWithDebInfo|VisualGDB = RelWithDebInfo|VisualGDB
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2591CC7F-EFBA-4A16-8AD0-73003F9D9F6B}.Debug|Generic_STM32F4_series.ActiveCfg = Debug|Generic_STM32F4_series
 		{2591CC7F-EFBA-4A16-8AD0-73003F9D9F6B}.Debug|Generic_STM32F4_series.Build.0 = Debug|Generic_STM32F4_series
 		{2591CC7F-EFBA-4A16-8AD0-73003F9D9F6B}.Debug|VisualGDB.ActiveCfg = Debug|Generic_STM32F4_series
+		{2591CC7F-EFBA-4A16-8AD0-73003F9D9F6B}.MinSizeRel|Generic_STM32F4_series.ActiveCfg = Release|Generic_STM32F4_series
+		{2591CC7F-EFBA-4A16-8AD0-73003F9D9F6B}.MinSizeRel|VisualGDB.ActiveCfg = Release|Generic_STM32F4_series
 		{2591CC7F-EFBA-4A16-8AD0-73003F9D9F6B}.Release|Generic_STM32F4_series.ActiveCfg = Release|Generic_STM32F4_series
 		{2591CC7F-EFBA-4A16-8AD0-73003F9D9F6B}.Release|Generic_STM32F4_series.Build.0 = Release|Generic_STM32F4_series
 		{2591CC7F-EFBA-4A16-8AD0-73003F9D9F6B}.Release|VisualGDB.ActiveCfg = Release|Generic_STM32F4_series
-		{C5E098CD-15AB-4ABF-AA24-B349005F65BA}.Debug|Generic_STM32F4_series.ActiveCfg = Debug|VisualGDB
-		{C5E098CD-15AB-4ABF-AA24-B349005F65BA}.Debug|Generic_STM32F4_series.Build.0 = Debug|VisualGDB
-		{C5E098CD-15AB-4ABF-AA24-B349005F65BA}.Debug|VisualGDB.ActiveCfg = Debug|VisualGDB
-		{C5E098CD-15AB-4ABF-AA24-B349005F65BA}.Debug|VisualGDB.Build.0 = Debug|VisualGDB
-		{C5E098CD-15AB-4ABF-AA24-B349005F65BA}.Release|Generic_STM32F4_series.ActiveCfg = Release|VisualGDB
-		{C5E098CD-15AB-4ABF-AA24-B349005F65BA}.Release|VisualGDB.ActiveCfg = Release|VisualGDB
-		{C5E098CD-15AB-4ABF-AA24-B349005F65BA}.Release|VisualGDB.Build.0 = Release|VisualGDB
+		{2591CC7F-EFBA-4A16-8AD0-73003F9D9F6B}.RelWithDebInfo|Generic_STM32F4_series.ActiveCfg = Release|Generic_STM32F4_series
+		{2591CC7F-EFBA-4A16-8AD0-73003F9D9F6B}.RelWithDebInfo|VisualGDB.ActiveCfg = Release|Generic_STM32F4_series
 		{EE88D30B-F639-464A-8A63-672ABA9D2544}.Debug|Generic_STM32F4_series.ActiveCfg = Debug|VisualGDB
 		{EE88D30B-F639-464A-8A63-672ABA9D2544}.Debug|VisualGDB.ActiveCfg = Debug|VisualGDB
 		{EE88D30B-F639-464A-8A63-672ABA9D2544}.Debug|VisualGDB.Build.0 = Debug|VisualGDB
+		{EE88D30B-F639-464A-8A63-672ABA9D2544}.MinSizeRel|Generic_STM32F4_series.ActiveCfg = Release|VisualGDB
+		{EE88D30B-F639-464A-8A63-672ABA9D2544}.MinSizeRel|Generic_STM32F4_series.Build.0 = Release|VisualGDB
+		{EE88D30B-F639-464A-8A63-672ABA9D2544}.MinSizeRel|VisualGDB.ActiveCfg = Release|VisualGDB
+		{EE88D30B-F639-464A-8A63-672ABA9D2544}.MinSizeRel|VisualGDB.Build.0 = Release|VisualGDB
 		{EE88D30B-F639-464A-8A63-672ABA9D2544}.Release|Generic_STM32F4_series.ActiveCfg = Release|VisualGDB
 		{EE88D30B-F639-464A-8A63-672ABA9D2544}.Release|VisualGDB.ActiveCfg = Release|VisualGDB
 		{EE88D30B-F639-464A-8A63-672ABA9D2544}.Release|VisualGDB.Build.0 = Release|VisualGDB
+		{EE88D30B-F639-464A-8A63-672ABA9D2544}.RelWithDebInfo|Generic_STM32F4_series.ActiveCfg = Release|VisualGDB
+		{EE88D30B-F639-464A-8A63-672ABA9D2544}.RelWithDebInfo|Generic_STM32F4_series.Build.0 = Release|VisualGDB
+		{EE88D30B-F639-464A-8A63-672ABA9D2544}.RelWithDebInfo|VisualGDB.ActiveCfg = Release|VisualGDB
+		{EE88D30B-F639-464A-8A63-672ABA9D2544}.RelWithDebInfo|VisualGDB.Build.0 = Release|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.Debug|Generic_STM32F4_series.ActiveCfg = Debug|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.Debug|VisualGDB.ActiveCfg = Debug|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.Debug|VisualGDB.Build.0 = Debug|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.MinSizeRel|Generic_STM32F4_series.ActiveCfg = Release|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.MinSizeRel|Generic_STM32F4_series.Build.0 = Release|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.MinSizeRel|VisualGDB.ActiveCfg = Release|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.MinSizeRel|VisualGDB.Build.0 = Release|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.Release|Generic_STM32F4_series.ActiveCfg = Release|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.Release|VisualGDB.ActiveCfg = Release|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.Release|VisualGDB.Build.0 = Release|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.RelWithDebInfo|Generic_STM32F4_series.ActiveCfg = Release|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.RelWithDebInfo|Generic_STM32F4_series.Build.0 = Release|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.RelWithDebInfo|VisualGDB.ActiveCfg = Release|VisualGDB
+		{0BD31BC6-95F6-4D06-9652-BD9DAF673461}.RelWithDebInfo|VisualGDB.Build.0 = Release|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.Debug|Generic_STM32F4_series.ActiveCfg = Debug|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.Debug|VisualGDB.ActiveCfg = Debug|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.Debug|VisualGDB.Build.0 = Debug|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.MinSizeRel|Generic_STM32F4_series.ActiveCfg = MinSizeRel|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.MinSizeRel|VisualGDB.ActiveCfg = MinSizeRel|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.MinSizeRel|VisualGDB.Build.0 = MinSizeRel|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.Release|Generic_STM32F4_series.ActiveCfg = Release|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.Release|VisualGDB.ActiveCfg = Release|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.Release|VisualGDB.Build.0 = Release|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.RelWithDebInfo|Generic_STM32F4_series.ActiveCfg = RelWithDebInfo|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.RelWithDebInfo|VisualGDB.ActiveCfg = RelWithDebInfo|VisualGDB
+		{9A4CB3FA-25C0-4191-83A6-4C9883A4343A}.RelWithDebInfo|VisualGDB.Build.0 = RelWithDebInfo|VisualGDB
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|VisualGDB">
+      <Configuration>Debug</Configuration>
+      <Platform>VisualGDB</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|VisualGDB">
+      <Configuration>Release</Configuration>
+      <Platform>VisualGDB</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{7A67255C-5DE3-474E-BA8D-BD3EEC2B3FB7}</ProjectGuid>
+    <BSP_ID>com.sysprogs.arm.stm32</BSP_ID>
+    <BSP_VERSION>2019.06</BSP_VERSION>
+    <InPlaceBSPSubdir />
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
+    <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+    <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
+    <GNUConfigurationType>Debug</GNUConfigurationType>
+    <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
+    <ToolchainVersion>9.2.1/8.3.0/r1</ToolchainVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+    <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
+    <ToolchainVersion>9.2.1/8.3.0/r1</ToolchainVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
+    <Link>
+      <LinkerScript>STM32F407IGHx_FLASH.ld</LinkerScript>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>Inc;$(BSP_ROOT)/STM32F4xxxx/CMSIS_HAL/Device/ST/STM32F4xx/Include;$(BSP_ROOT)/STM32F4xxxx/STM32F4xx_HAL_Driver/Inc;$(BSP_ROOT)/VendorSamples/F4/Drivers/BSP/STM324xG_EVAL;$(BSP_ROOT)/VendorSamples/F4/Middlewares/Third_Party/FatFs/src;$(BSP_ROOT)/FreeRTOS/Source/portable/GCC/ARM_CM4F;$(BSP_ROOT)/FreeRTOS/Source/include;$(BSP_ROOT)/FreeRTOS/Source/CMSIS_RTOS;$(BSP_ROOT)/STM32F4xxxx/CMSIS_HAL/Include;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(ClCompile.PreprocessorDefinitions);DEBUG=1;USE_HAL_DRIVER;USE_STM324xG_EVAL;STM32F407xx</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+    <Link>
+      <LinkerScript>STM32F407IGHx_FLASH.ld</LinkerScript>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>Inc;$(BSP_ROOT)/STM32F4xxxx/CMSIS_HAL/Device/ST/STM32F4xx/Include;$(BSP_ROOT)/STM32F4xxxx/STM32F4xx_HAL_Driver/Inc;$(BSP_ROOT)/VendorSamples/F4/Drivers/BSP/STM324xG_EVAL;$(BSP_ROOT)/VendorSamples/F4/Middlewares/Third_Party/FatFs/src;$(BSP_ROOT)/FreeRTOS/Source/portable/GCC/ARM_CM4F;$(BSP_ROOT)/FreeRTOS/Source/include;$(BSP_ROOT)/FreeRTOS/Source/CMSIS_RTOS;$(BSP_ROOT)/STM32F4xxxx/CMSIS_HAL/Include;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>%(ClCompile.PreprocessorDefinitions);NDEBUG=1;RELEASE=1;USE_HAL_DRIVER;USE_STM324xG_EVAL;STM32F407xx</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ItemGroup>
+    <None Include="STM32F407IGHx_FLASH.ld" />
+    <ClCompile Include="Src\main.c" />
+    <ClCompile Include="Src\sd_diskio_dma_rtos.c" />
+    <ClCompile Include="Src\stm32f4xx_hal_timebase_tim.c" />
+    <ClCompile Include="Src\stm32f4xx_it.c" />
+    <ClCompile Include="Src\system_stm32f4xx.c" />
+    <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\portable\MemMang\heap_4.c" />
+    <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\portable\GCC\ARM_CM4F\port.c" />
+    <ClCompile Include="$(BSP_ROOT)\VendorSamples\F4\Middlewares\Third_Party\FatFs\src\ff_gen_drv.c" />
+    <ClCompile Include="$(BSP_ROOT)\VendorSamples\F4\Middlewares\Third_Party\FatFs\src\ff.c" />
+    <ClCompile Include="$(BSP_ROOT)\VendorSamples\F4\Middlewares\Third_Party\FatFs\src\diskio.c" />
+    <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\croutine.c" />
+    <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\tasks.c" />
+    <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\queue.c" />
+    <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\list.c" />
+    <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\timers.c" />
+    <ClCompile Include="$(BSP_ROOT)\VendorSamples\F4\Drivers\BSP\STM324xG_EVAL\stm324xg_eval.c" />
+    <ClCompile Include="$(BSP_ROOT)\VendorSamples\F4\Drivers\BSP\STM324xG_EVAL\stm324xg_eval_io.c" />
+    <ClCompile Include="$(BSP_ROOT)\VendorSamples\F4\Drivers\BSP\STM324xG_EVAL\stm324xg_eval_sd.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_crc.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rcc.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_i2c.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_pwr.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_wwdg.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_flash_ex.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_sd.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_i2s.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim_ex.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_dma.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_gpio.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_sram.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_sdmmc.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_flash.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_fsmc.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_cortex.c" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_uart.c" />
+    <ClCompile Include="$(BSP_ROOT)\VendorSamples\F4\Drivers\BSP\Components\stmpe811\stmpe811.c" />
+    <ClCompile Include="$(BSP_ROOT)\VendorSamples\F4\Middlewares\Third_Party\FatFs\src\option\syscall.c" />
+    <ClCompile Include="$(BSP_ROOT)\VendorSamples\F4\Middlewares\Third_Party\FatFs\src\option\unicode.c" />
+    <ClCompile Include="$(BSP_ROOT)\FreeRTOS\Source\CMSIS_RTOS\cmsis_os.c" />
+    <None Include="stm32.props" />
+    <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\StartupFiles\startup_stm32f407xx.c" />
+    <ClInclude Include="Inc\ffconf.h" />
+    <ClInclude Include="Inc\FreeRTOSConfig.h" />
+    <ClInclude Include="Inc\main.h" />
+    <ClInclude Include="Inc\sd_diskio_dma_rtos.h" />
+    <ClInclude Include="Inc\stm32f4xx_hal_conf.h" />
+    <ClInclude Include="Inc\stm32f4xx_it.h" />
+    <None Include="FreeRTOSTest-Debug.vgdbsettings" />
+    <None Include="FreeRTOSTest-Release.vgdbsettings" />
+    <None Include="stm32.xml" />
+  </ItemGroup>
+</Project>

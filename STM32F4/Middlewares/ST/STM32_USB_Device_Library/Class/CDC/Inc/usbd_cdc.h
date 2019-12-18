@@ -1,179 +1,82 @@
-/**
-  ******************************************************************************
-  * @file    usbd_cdc.h
-  * @author  MCD Application Team
-  * @brief   header file for the usbd_cdc.c file.
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2015 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                      http://www.st.com/SLA0044
-  *
-  ******************************************************************************
-  */
+/*
+    DMA-accelerated multi-UART USB CDC for STM32F072 microcontroller
+    Copyright (C) 2015,2016 Peter Lawrence
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+*/
 
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USB_CDC_H
-#define __USB_CDC_H
+#ifndef __USB_CDC_H_
+#define __USB_CDC_H_
 
-#ifdef __cplusplus
- extern "C" {
-#endif
+#include "usbd_def.h"
+#include "usbd_ioreq.h"
+#include "usbd_composite.h"
+#include "config.h"
 
-/* Includes ------------------------------------------------------------------*/
-#include  "usbd_ioreq.h"
+#define CDC_DATA_OUT_MAX_PACKET_SIZE        USB_FS_MAX_PACKET_SIZE /* don't exceed USB_FS_MAX_PACKET_SIZE; Linux data loss happens otherwise */
+#define CDC_DATA_IN_MAX_PACKET_SIZE         256
+#define CDC_CMD_PACKET_SIZE                 8 /* this may need to be enlarged for advanced CDC commands */
 
-/** @addtogroup STM32_USB_DEVICE_LIBRARY
-  * @{
-  */
+/*
+INBOUND_BUFFER_SIZE should be 2x or more (bigger is better) of CDC_DATA_IN_MAX_PACKET_SIZE to ensure
+adequate time for the service routine to copy the data to the relevant USB IN endpoint PMA memory
+*/
+#define INBOUND_BUFFER_SIZE                 (4*CDC_DATA_IN_MAX_PACKET_SIZE)
 
-/** @defgroup usbd_cdc
-  * @brief This file is the Header file for usbd_cdc.c
-  * @{
-  */
+/* listing CDC commands handled by switch statement in usbd_cdc.c */
+#define CDC_SEND_ENCAPSULATED_COMMAND       0x00
+#define CDC_GET_ENCAPSULATED_RESPONSE       0x01
+#define CDC_SET_COMM_FEATURE                0x02
+#define CDC_GET_COMM_FEATURE                0x03
+#define CDC_CLEAR_COMM_FEATURE              0x04
+#define CDC_SET_LINE_CODING                 0x20
+#define CDC_GET_LINE_CODING                 0x21
+#define CDC_SET_CONTROL_LINE_STATE          0x22
+#define CDC_SEND_BREAK                      0x23
 
-
-/** @defgroup usbd_cdc_Exported_Defines
-  * @{
-  */
-#define CDC_IN_EP                                   0x81U  /* EP1 for data IN */
-#define CDC_OUT_EP                                  0x01U  /* EP1 for data OUT */
-#define CDC_CMD_EP                                  0x82U  /* EP2 for CDC commands */
-
-#ifndef CDC_HS_BINTERVAL
-  #define CDC_HS_BINTERVAL                          0x10U
-#endif /* CDC_HS_BINTERVAL */
-
-#ifndef CDC_FS_BINTERVAL
-  #define CDC_FS_BINTERVAL                          0x10U
-#endif /* CDC_FS_BINTERVAL */
-
-/* CDC Endpoints parameters: you can fine tune these values depending on the needed baudrates and performance. */
-#define CDC_DATA_HS_MAX_PACKET_SIZE                 512U  /* Endpoint IN & OUT Packet size */
-#define CDC_DATA_FS_MAX_PACKET_SIZE                 64U  /* Endpoint IN & OUT Packet size */
-#define CDC_CMD_PACKET_SIZE                         8U  /* Control Endpoint Packet size */
-
-#define USB_CDC_CONFIG_DESC_SIZ                     67U
-#define CDC_DATA_HS_IN_PACKET_SIZE                  CDC_DATA_HS_MAX_PACKET_SIZE
-#define CDC_DATA_HS_OUT_PACKET_SIZE                 CDC_DATA_HS_MAX_PACKET_SIZE
-
-#define CDC_DATA_FS_IN_PACKET_SIZE                  CDC_DATA_FS_MAX_PACKET_SIZE
-#define CDC_DATA_FS_OUT_PACKET_SIZE                 CDC_DATA_FS_MAX_PACKET_SIZE
-
-/*---------------------------------------------------------------------*/
-/*  CDC definitions                                                    */
-/*---------------------------------------------------------------------*/
-#define CDC_SEND_ENCAPSULATED_COMMAND               0x00U
-#define CDC_GET_ENCAPSULATED_RESPONSE               0x01U
-#define CDC_SET_COMM_FEATURE                        0x02U
-#define CDC_GET_COMM_FEATURE                        0x03U
-#define CDC_CLEAR_COMM_FEATURE                      0x04U
-#define CDC_SET_LINE_CODING                         0x20U
-#define CDC_GET_LINE_CODING                         0x21U
-#define CDC_SET_CONTROL_LINE_STATE                  0x22U
-#define CDC_SEND_BREAK                              0x23U
-
-/**
-  * @}
-  */
-
-
-/** @defgroup USBD_CORE_Exported_TypesDefinitions
-  * @{
-  */
-
-/**
-  * @}
-  */
+/* struct type used to store current line coding state */
 typedef struct
 {
-  uint32_t bitrate;
-  uint8_t  format;
-  uint8_t  paritytype;
-  uint8_t  datatype;
-}USBD_CDC_LineCodingTypeDef;
+    uint32_t bitrate;
+    uint8_t  format;
+    uint8_t  paritytype;
+    uint8_t  datatype;
+} USBD_CDC_LineCodingTypeDef;
 
-typedef struct _USBD_CDC_Itf
-{
-  int8_t (* Init)          (void);
-  int8_t (* DeInit)        (void);
-  int8_t (* Control)       (uint8_t cmd, uint8_t* pbuf, uint16_t length);
-  int8_t (* Receive)       (uint8_t* Buf, uint32_t *Len);
-
-}USBD_CDC_ItfTypeDef;
-
-
+/* struct type used for each instance of a CDC UART */
 typedef struct
 {
-  uint32_t data[CDC_DATA_HS_MAX_PACKET_SIZE / 4U];      /* Force 32bits alignment */
-  uint8_t  CmdOpCode;
-  uint8_t  CmdLength;
-  uint8_t  *RxBuffer;
-  uint8_t  *TxBuffer;
-  uint32_t RxLength;
-  uint32_t TxLength;
+    /*
+    ST's example code partially used 32-bit alignment of individual buffers with no explanation as to why;
+    word alignment is relevant for DMA, so this practice was used (albeit in a more consistent manner) in this struct
+    */
+    uint32_t                   SetupBuffer[(CDC_CMD_PACKET_SIZE) / sizeof (uint32_t)];
+    uint32_t                   OutboundBuffer[(CDC_DATA_OUT_MAX_PACKET_SIZE) / sizeof (uint32_t)];
+    uint32_t                   InboundBuffer[(INBOUND_BUFFER_SIZE) / sizeof (uint32_t)];
+    uint8_t                    CmdOpCode;
+    uint8_t                    CmdLength;
+    uint32_t                   InboundBufferReadIndex;
+    volatile uint32_t          InboundTransferInProgress;
+    volatile uint32_t          OutboundTransferNeedsRenewal;
+    UART_HandleTypeDef         UartHandle;
+    USBD_CDC_LineCodingTypeDef LineCoding;
+    DMA_HandleTypeDef          hdma_tx;
+    DMA_HandleTypeDef          hdma_rx;
+} USBD_CDC_HandleTypeDef;
 
-  __IO uint32_t TxState;
-  __IO uint32_t RxState;
-}
-USBD_CDC_HandleTypeDef;
+extern const USBD_CompClassTypeDef USBD_CDC;
 
-
-
-/** @defgroup USBD_CORE_Exported_Macros
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @defgroup USBD_CORE_Exported_Variables
-  * @{
-  */
-
-extern USBD_ClassTypeDef  USBD_CDC;
-#define USBD_CDC_CLASS    &USBD_CDC
-/**
-  * @}
-  */
-
-/** @defgroup USB_CORE_Exported_Functions
-  * @{
-  */
-uint8_t  USBD_CDC_RegisterInterface  (USBD_HandleTypeDef   *pdev,
-                                      USBD_CDC_ItfTypeDef *fops);
-
-uint8_t  USBD_CDC_SetTxBuffer        (USBD_HandleTypeDef   *pdev,
-                                      uint8_t  *pbuff,
-                                      uint16_t length);
-
-uint8_t  USBD_CDC_SetRxBuffer        (USBD_HandleTypeDef   *pdev,
-                                      uint8_t  *pbuff);
-
-uint8_t  USBD_CDC_ReceivePacket      (USBD_HandleTypeDef *pdev);
-
-uint8_t  USBD_CDC_TransmitPacket     (USBD_HandleTypeDef *pdev);
-/**
-  * @}
-  */
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif  /* __USB_CDC_H */
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+#endif  // __USB_CDC_H_

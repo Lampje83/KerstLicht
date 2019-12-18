@@ -29,7 +29,6 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
-#include "stm32f4xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -51,6 +50,8 @@ extern "C" {
 
 /* USER CODE END EM */
 
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -71,6 +72,8 @@ void Error_Handler(void);
 #define WIFI_CH_PD_GPIO_Port GPIOA
 #define WIFI_RST_Pin GPIO_PIN_5
 #define WIFI_RST_GPIO_Port GPIOA
+#define SDIO_DETECT_Pin GPIO_PIN_8
+#define SDIO_DETECT_GPIO_Port GPIOA
 #define PIXEL_OUT_Pin GPIO_PIN_3
 #define PIXEL_OUT_GPIO_Port GPIOB
 #define EEPROM_SCL_Pin GPIO_PIN_6

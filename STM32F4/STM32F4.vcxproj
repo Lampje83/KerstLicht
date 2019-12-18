@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{C5E098CD-15AB-4ABF-AA24-B349005F65BA}</ProjectGuid>
+    <ProjectGuid>{0BD31BC6-95F6-4D06-9652-BD9DAF673461}</ProjectGuid>
     <BSP_ID>com.sysprogs.arm.stm32</BSP_ID>
     <BSP_VERSION>2019.06</BSP_VERSION>
     <InPlaceBSPSubdir />
@@ -41,8 +41,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
     <ClCompile>
-      <AdditionalIncludeDirectories>Inc;Drivers\CMSIS\Include;Drivers\CMSIS\Device\ST\STM32F4xx\Include;Drivers\STM32F4xx_HAL_Driver\Inc;Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;Middlewares\Third_Party\FatFs\src;Middlewares\ST\STM32_USB_Device_Library\Core\Inc;Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DEBUG=1;flash_layout;STM32F407xx;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Inc;Drivers\CMSIS\Include;Drivers\CMSIS\Device\ST\STM32F4xx\Include;Drivers\STM32F4xx_HAL_Driver\Inc;Middlewares\Third_Party\FreeRTOS\Source\include;Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;Middlewares\Third_Party\FatFs\src;Middlewares\ST\STM32_USB_Device_Library\Core\Inc;Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc;Middlewares\Third_Party\FreeRTOS\Source\portable\GCC\ARM_CM4F;Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>flash_layout;STM32F407xx;USE_FREERTOS;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions />
       <CLanguageStandard />
       <CPPLanguageStandard />
@@ -56,8 +56,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
     <ClCompile>
-      <AdditionalIncludeDirectories>Inc;Drivers\CMSIS\Include;Drivers\CMSIS\Device\ST\STM32F4xx\Include;Drivers\STM32F4xx_HAL_Driver\Inc;Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;Middlewares\Third_Party\FatFs\src;Middlewares\ST\STM32_USB_Device_Library\Core\Inc;Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG=1;RELEASE=1;flash_layout;STM32F407xx;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>Inc;Drivers\CMSIS\Include;Drivers\CMSIS\Device\ST\STM32F4xx\Include;Drivers\STM32F4xx_HAL_Driver\Inc;Middlewares\Third_Party\FreeRTOS\Source\include;Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;Middlewares\Third_Party\FatFs\src;Middlewares\ST\STM32_USB_Device_Library\Core\Inc;Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc;Middlewares\Third_Party\FreeRTOS\Source\portable\GCC\ARM_CM4F;Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>flash_layout;STM32F407xx;USE_FREERTOS;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions />
       <CLanguageStandard />
       <CPPLanguageStandard />
@@ -75,26 +75,20 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="Src\gpio.c" />
-    <ClCompile Include="Src\dma.c" />
     <ClCompile Include="Src\bsp_driver_sd.c" />
     <ClCompile Include="Src\sd_diskio.c" />
     <ClCompile Include="Src\fatfs.c" />
-    <ClCompile Include="Src\i2c.c" />
-    <ClCompile Include="Src\rng.c" />
-    <ClCompile Include="Src\rtc.c" />
-    <ClCompile Include="Src\sdio.c" />
-    <ClCompile Include="Src\sys.c" />
-    <ClCompile Include="Src\tim.c" />
-    <ClCompile Include="Src\usart.c" />
+    <ClCompile Include="Src\fatfs_platform.c" />
+    <ClCompile Include="Src\freertos.c" />
+    <ClCompile Include="Src\usbd_composite.c" />
     <ClCompile Include="Src\usb_device.c" />
     <ClCompile Include="Src\usbd_conf.c" />
     <ClCompile Include="Src\usbd_desc.c" />
-    <ClCompile Include="Src\usbd_cdc_if.c" />
     <ClCompile Include="Src\stm32f4xx_it.c" />
     <ClCompile Include="Src\stm32f4xx_hal_msp.c" />
+    <ClCompile Include="Src\stm32f4xx_hal_timebase_tim.c" />
     <ClCompile Include="Src\main.c" />
-    <ClCompile Include="Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c" />
+    <ClCompile Include="Src\system_stm32f4xx.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rtc.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rtc_ex.c" />
@@ -111,10 +105,21 @@
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_pcd.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_pcd_ex.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_ll_usb.c" />
+    <ClCompile Include="Middlewares\Third_Party\FreeRTOS\Source\croutine.c" />
+    <ClCompile Include="Middlewares\Third_Party\FreeRTOS\Source\event_groups.c" />
+    <ClCompile Include="Middlewares\Third_Party\FreeRTOS\Source\list.c" />
+    <ClCompile Include="Middlewares\Third_Party\FreeRTOS\Source\queue.c" />
+    <ClCompile Include="Middlewares\Third_Party\FreeRTOS\Source\stream_buffer.c" />
+    <ClCompile Include="Middlewares\Third_Party\FreeRTOS\Source\tasks.c" />
+    <ClCompile Include="Middlewares\Third_Party\FreeRTOS\Source\timers.c" />
+    <ClCompile Include="Middlewares\Third_Party\FreeRTOS\Source\portable\MemMang\heap_4.c" />
+    <ClCompile Include="Middlewares\Third_Party\FreeRTOS\Source\portable\GCC\ARM_CM4F\port.c" />
+    <ClCompile Include="Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS\cmsis_os.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_sd.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rcc.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rcc_ex.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_cortex.c" />
+    <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_crc.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_dma_ex.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_dma.c" />
     <ClCompile Include="Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim.c" />
@@ -131,23 +136,19 @@
     <ClCompile Include="Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Src\usbd_cdc.c" />
     <None Include="stm32.props" />
     <ClCompile Include="$(BSP_ROOT)\STM32F4xxxx\StartupFiles\startup_stm32f407xx.c" />
-    <ClInclude Include="Inc\gpio.h" />
-    <ClInclude Include="Inc\dma.h" />
+    <ClInclude Include="Inc\cdchelper.h" />
+    <ClInclude Include="Inc\config.h" />
     <ClInclude Include="Inc\ffconf.h" />
     <ClInclude Include="Inc\bsp_driver_sd.h" />
     <ClInclude Include="Inc\sd_diskio.h" />
     <ClInclude Include="Inc\fatfs.h" />
-    <ClInclude Include="Inc\i2c.h" />
-    <ClInclude Include="Inc\rng.h" />
-    <ClInclude Include="Inc\rtc.h" />
-    <ClInclude Include="Inc\sdio.h" />
-    <ClInclude Include="Inc\sys.h" />
-    <ClInclude Include="Inc\tim.h" />
-    <ClInclude Include="Inc\usart.h" />
+    <ClInclude Include="Inc\fatfs_platform.h" />
+    <ClInclude Include="Inc\FreeRTOSConfig.h" />
+    <ClInclude Include="Inc\usbd_composite.h" />
+    <ClInclude Include="Inc\usbhelper.h" />
     <ClInclude Include="Inc\usb_device.h" />
     <ClInclude Include="Inc\usbd_conf.h" />
     <ClInclude Include="Inc\usbd_desc.h" />
-    <ClInclude Include="Inc\usbd_cdc_if.h" />
     <ClInclude Include="Inc\stm32f4xx_it.h" />
     <ClInclude Include="Inc\stm32f4xx_hal_conf.h" />
     <ClInclude Include="Inc\main.h" />
@@ -173,10 +174,28 @@
     <ClInclude Include="Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd.h" />
     <ClInclude Include="Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h" />
     <ClInclude Include="Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\croutine.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\deprecated_definitions.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\event_groups.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\list.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\message_buffer.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\mpu_prototypes.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\mpu_wrappers.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\portable.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\projdefs.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\queue.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\stack_macros.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\StackMacros.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\stream_buffer.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\task.h" />
+    <ClInclude Include="Middlewares\Third_Party\FreeRTOS\Source\include\timers.h" />
     <ClInclude Include="Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sd.h" />
     <ClInclude Include="Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h" />
     <ClInclude Include="Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc_ex.h" />
     <ClInclude Include="Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_cortex.h" />
+    <ClInclude Include="Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_crc.h" />
     <ClInclude Include="Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_dma_ex.h" />
     <ClInclude Include="Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_dma.h" />
     <ClInclude Include="Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim.h" />

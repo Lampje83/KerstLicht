@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/CodeDB/ESP32.vgdbproj-Debug
+/ESP32/VisualGDBCache/ESP32-Debug-VisualGDB
